@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Detalle: <' + ${etiqueta.nombre} + '>'">Detalle Etiqueta</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; background-color: #f4f4f9; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { border-bottom: 2px solid #004c99; margin-bottom: 20px; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .badge { background: #004c99; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; }
+        .info-section { margin-bottom: 20px; }
+        h3 { color: #333; margin-bottom: 5px; }
+        pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .render-box { border: 2px dashed #ccc; padding: 20px; background: #fafafa; border-radius: 5px; margin-top: 10px; }
+        .navigation { margin-top: 30px; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 20px; }
+        .btn { text-decoration: none; color: white; background: #004c99; padding: 10px 20px; border-radius: 5px; transition: background 0.3s; }
+        .btn:hover { background: #003366; }
+        .btn.secondary { background: #6c757d; }
+        .btn.disabled { background: #ccc; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1 th:text="'Etiqueta <' + ${etiqueta.nombre} + '>'"></h1>
+        <span class="badge" th:text="${etiqueta.categoria}">Categoría</span>
+    </div>
+
+    <div class="info-section">
+        <h3>Descripción</h3>
+        <p th:text="${etiqueta.descripcion}"></p>
+    </div>
+
+    <div class="info-section">
+        <h3>Sintaxis</h3>
+        <code th:text="${etiqueta.sintaxis}"></code>
+    </div>
+
+    <div class="info-section">
+        <h3>Atributos Relevantes</h3>
+        <p><i><span th:text="${etiqueta.atributos}"></span></i></p>
+    </div>
+
+    <div class="info-section">
+        <h3>Ejemplo de Código</h3>
+        <pre><code th:text="${etiqueta.ejemploCodigo}"></code></pre>
+    </div>
+
+    <div class="info-section">
+        <h3>Resultado Visual (Renderizado)</h3>
+        <div class="render-box">
+            <div th:utext="${etiqueta.ejemploRenderizado}"></div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <a th:if="${anterior != null}" 
+           th:href="@{/etiqueta/{nombre}(nombre=${anterior.nombre})}" 
+           class="btn secondary" 
+           th:text="'← ' + ${anterior.nombre}">Anterior</a>
+        <span th:unless="${anterior != null}" class="btn disabled">← Inicio</span>
+
+        <a th:href="@{/}" class="btn">Volver al Índice</a>
+
+        <a th:if="${siguiente != null}" 
+           th:href="@{/etiqueta/{nombre}(nombre=${siguiente.nombre})}" 
+           class="btn secondary" 
+           th:text="${siguiente.nombre} + ' →'">Siguiente</a>
+        <span th:unless="${siguiente != null}" class="btn disabled">Fin →</span>
+    </div>
+</div>
+
+</body>
+</html>
